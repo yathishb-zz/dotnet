@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="trainingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employe">
+    <Key>
+      <PropertyRef Name="Eid" />
+    </Key>
+    <Property Name="Eid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Emiddlename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Elastname" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StateId" Type="Int32" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="states2" Relationship="Self.FK__Employe__StateId__5CD6CB2B" FromRole="Employe" ToRole="states2" />
+  </EntityType>
+  <EntityType Name="states2">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="Int32" Nullable="false" />
+    <Property Name="StateName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Employes" Relationship="Self.FK__Employe__StateId__5CD6CB2B" FromRole="states2" ToRole="Employe" />
+  </EntityType>
+  <Association Name="FK__Employe__StateId__5CD6CB2B">
+    <End Role="states2" Type="Self.states2" Multiplicity="0..1" />
+    <End Role="Employe" Type="Self.Employe" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="states2">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="Employe">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employes" EntityType="Self.Employe" />
+    <EntitySet Name="states2" EntityType="Self.states2" />
+    <AssociationSet Name="FK__Employe__StateId__5CD6CB2B" Association="Self.FK__Employe__StateId__5CD6CB2B">
+      <End Role="states2" EntitySet="states2" />
+      <End Role="Employe" EntitySet="Employes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

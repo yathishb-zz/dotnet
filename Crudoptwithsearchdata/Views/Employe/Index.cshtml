@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/Employe.js"></script>
+<style>
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+</style>
+
+<div ng-app="myapp">
+    <div ng-controller="myctrl" ng-init="getallstste()" class="divList">
+        <div class="form-horizontal" role="form">
+            <div class="container">
+                <div class="row">
+                    <h2>
+                        <span id="spn">Add New Employee</span>
+                    </h2>
+                </div>
+                <div class="row">
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Name:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="tbename" ng-model="EmpName">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Middlename:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="tbmname" ng-model="EmpMiddle">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">LastName:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="tblname" ng-model="EmpLastname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Status:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" ng-model="status">IsActive
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">State:</label>
+                        <div class="col-md-6">
+                            <select id="state" class="form-control"  ng-model="statess"  ng-options="item as item.StateName for item in states track by item.StateId"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Date:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="tbdate" ng-model="Empdate">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <input type="button" id="btnSave" class="form-control btn-space" ng-click="insertemp()" value="Submit" />
+                    </div>
+                </div>
+                <div class="row">
+                    <h2>Search employee</h2>
+                    Name:<input type="text" class="form-control" id="txtename" ng-model="searchEmpName.Ename" />
+                    state:<select id="stat" class="form-control" ng-model="sreachstate" ng-options="item as item.StateName for item in states track by item.StateId"></select>
+                    <br />
+       
+
+                </div>
+                <p class="divHead">List of Employee</p>
+                <div ng-init="getallemp()">
+                    <table cellpadding="12" class="table table-bordered table-hover">
+                        <tr>
+                            <td>
+                                <b>Name</b>
+                            </td>
+                            <td>
+                                <b>MiddleName</b>
+                            </td>
+                            <td>
+                                <b>LastName</b>
+                            </td>
+                            <td>
+                                <b>State</b>
+                            </td>
+                            <td>
+                                <b>Status</b>
+                            </td>
+                            <td>
+                                <b>Date</b>
+                            </td>
+                            <td>
+                                <b>Action</b>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="Emp in employes | filter:searchEmpName.Ename">
+
+                            <td>
+                                {{Emp.Ename}}
+                                <input type="text" ng-model="Emp.Ename" ng-show="Emp.EditMode" />
+                            </td>
+                            <td>
+                                {{Emp.Emiddlename}}
+                                <input type="text" ng-model="Emp.Emiddlename" ng-show="Emp.EditMode" />
+                            </td>
+                            <td>
+                                {{Emp.Elastname}}
+                                <input type="text" ng-model="Emp.Elastname" ng-show="Emp.EditMode" />
+                            </td>
+                            <td>
+                                {{Emp.StateName}}
+                                <select id="state" ng-model="Emp.statess" ng-options=" item as item.statename for item in states track by item.stateid" ng-show="Emp.EditMode"></select>
+                            </td>
+                            <td>
+                                {{Emp.IsActive}}
+                                <input type="text" ng-model="Emp.IsActive" ng-show="Emp.EditMode" />
+                            </td>
+                            <td>
+                                {{Emp.Date}}
+                                <input type="text" ng-model="Emp.Empdate" ng-show="Emp.EditMode" />
+                            </td>
+                            <td>
+                                <a class="Edit" href="javascript:;" ng-hide="Emp.EditMode" ng-click="Edit($index)">Edit</a>
+                                <a class="Update" href="javascript:;" ng-show="Emp.EditMode" ng-click="updateemp($index)">Update</a>
+                                <a class="Cancel" href="javascript:;" ng-show="Emp.EditMode" ng-click="Cancel($index)">Cancel</a>
+                                <a href="javascript:;" ng-hide="Emp.EditMode" ng-click="deleteemp(Emp.Eid)">Delete</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Hidden("EmpID_")
+
+
+
+
